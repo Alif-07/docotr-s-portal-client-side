@@ -9,7 +9,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import MuiButton from '../../../../StyledComponents/MuiButton';
 
 const DashboardAppointments = ({ date }) => {
 	const { user, token } = useAuth();
@@ -18,7 +20,7 @@ const DashboardAppointments = ({ date }) => {
 	const newDate = date.toLocaleDateString();
 
 	useEffect(() => {
-		const url = `http://localhost:5000/appointments?email=${user.email}&date=${newDate}`;
+		const url = `https://enigmatic-eyrie-83123.herokuapp.com/appointments?email=${user.email}&date=${newDate}`;
 		fetch(url, {
 			headers: {
 				authorization: `Bearer ${token}`,
@@ -26,10 +28,10 @@ const DashboardAppointments = ({ date }) => {
 		})
 			.then((res) => res.json())
 			.then((data) => setAppointments(data));
-	}, [date]);
+	}, [date, user.email, newDate, token]);
 	return (
 		<div>
-			<Typography> DashboardAppointments: {appointments.length}</Typography>
+			<Typography>Appointments: {appointments.length}</Typography>
 
 			<TableContainer component={Paper}>
 				<Table sx={{}} aria-label="simple table">
@@ -52,7 +54,18 @@ const DashboardAppointments = ({ date }) => {
 								</TableCell>
 								<TableCell align="right">{row.time}</TableCell>
 								<TableCell align="right">{row.serviceName}</TableCell>
-								<TableCell align="right">{row.fat}</TableCell>
+								<TableCell align="right">
+									{row.payment ? (
+										'Paid'
+									) : (
+										<Link
+											style={{ textDecoration: 'none' }}
+											to={`/dashboard/payment/${row._id}`}
+										>
+											<MuiButton>Pay</MuiButton>
+										</Link>
+									)}
+								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>

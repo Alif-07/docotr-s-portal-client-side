@@ -29,7 +29,7 @@ const BookingModal = ({
 	setBookingSuccess,
 }) => {
 	const { user } = useAuth();
-	const { name, time } = booking;
+	const { name, time, price } = booking;
 	const initialInfo = {
 		patientName: user.displayName,
 		email: user.email,
@@ -51,11 +51,12 @@ const BookingModal = ({
 		const appointment = {
 			...bookingInfo,
 			time,
+			price,
 			serviceName: name,
 			date: date.toLocaleDateString(),
 		};
 		//Send data
-		fetch('http://localhost:5000/appointments', {
+		fetch('https://enigmatic-eyrie-83123.herokuapp.com/appointments', {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
@@ -120,6 +121,13 @@ const BookingModal = ({
 								onBlur={handleOnBlur}
 								defaultValue="Your phone number"
 								name="phone"
+								size="small"
+							/>
+							<TextField
+								disabled
+								sx={{ width: '100%', m: 1 }}
+								id="outlined-size-small"
+								defaultValue={price}
 								size="small"
 							/>
 							<TextField

@@ -6,6 +6,7 @@ import Connect from './Connect/Connect';
 import ExceptionalFeatures from './ExceptionalFeatures/ExceptionalFeatures';
 import Footer from './Footer/Footer';
 import InfoCard from './InfoCard/InfoCard';
+import OurDoctors from './OurDoctors/OurDoctors';
 import Services from './Services/Services';
 import Testimonial from './Testimonial/Testimonial';
 
@@ -19,6 +20,7 @@ const Home = () => {
 			<ExceptionalFeatures />
 			<AppointmentBanner />
 			<Testimonial />
+			<OurDoctors />
 			<Connect />
 			<Footer />
 		</div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import initFirebaseAuth from '../Pages/Login/Firebase/Firebase.init';
 import {
 	getAuth,
@@ -35,13 +35,7 @@ const useFirebase = () => {
 				setAuthError('');
 			})
 			.catch((error) => {
-				// Handle Errors here.
-				const errorCode = error.code;
 				setAuthError(error.message);
-				// The email of the user's account used.
-				const email = error.email;
-
-				// ...
 			})
 			.finally(() => setIsLoading(false));
 	};
@@ -63,16 +57,14 @@ const useFirebase = () => {
 				history.replace('/');
 			})
 			.catch((error) => {
-				const errorCode = error.code;
 				setAuthError(error.message);
-				// ..
 			})
 			.finally(() => setIsLoading(false));
 	};
 
 	const saveUser = (email, displayName, method) => {
 		const user = { email, displayName };
-		fetch('http://localhost:5000/users', {
+		fetch('https://enigmatic-eyrie-83123.herokuapp.com/users', {
 			method: method,
 			headers: {
 				'content-type': 'application/json',
@@ -100,19 +92,15 @@ const useFirebase = () => {
 				const destination = location?.state?.from || '/';
 				history.replace(destination);
 				setAuthError('');
-				// Signed in
-				const user = userCredential.user;
-				// ...
 			})
 			.catch((error) => {
-				const errorCode = error.code;
 				setAuthError(error.message);
 			})
 			.finally(() => setIsLoading(false));
 	};
 
 	useEffect(() => {
-		fetch(`http://localhost:5000/users/${user.email}`)
+		fetch(`https://enigmatic-eyrie-83123.herokuapp.com/users/${user.email}`)
 			.then((res) => res.json())
 			.then((data) => setAdmin(data.admin));
 	}, [user.email]);
@@ -130,7 +118,7 @@ const useFirebase = () => {
 			setIsLoading(false);
 		});
 		return () => unSubscribe;
-	}, []);
+	}, [auth]);
 	return {
 		user,
 		admin,
